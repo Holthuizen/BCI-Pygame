@@ -66,7 +66,7 @@ while RUNNING:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = pygame.mouse.get_pos()  # Get position when clicked
             print("Mouse clicked at:", x, y)
-            send_bytes([1], socket=sock, endpoint=addr) #sends the int 1
+            send_bytes([x,y], socket=sock, endpoint=addr) #sends the int 1
 
     #draw next frame
     pygame.display.flip() 
