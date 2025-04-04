@@ -18,6 +18,7 @@ screen = pygame.display.set_mode((W,H)) #with height
 clock = pygame.time.Clock()
 color_update_speed = 0.8
 angle = 0
+clicks = 0 # keep track of mouse clicks
 
 def send_bytes(msg, socket, endpoint):
     if len(msg) > 0: 
@@ -59,9 +60,11 @@ while RUNNING:
             sock.close()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            if clicks < 256: #limit to max byte size
+                clicks += 1
             x, y = pygame.mouse.get_pos()  # Get position when clicked
-            print("Mouse clicked at:", x, y)
-            send_bytes([x,y], socket=sock, endpoint=addr) #sends the int 1
+            print("Mouse clicked at:", x, y, angle)
+            send_bytes(bytes[clicks]), socket=sock, endpoint=addr) #sends the nr off clicks as a byte
 
     #draw next frame
     pygame.display.flip() 
