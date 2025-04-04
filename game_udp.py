@@ -19,13 +19,10 @@ clock = pygame.time.Clock()
 color_update_speed = 0.8
 angle = 0
 
-
 def send_bytes(msg, socket, endpoint):
     if len(msg) > 0: 
         bmsg = bytes(msg)
         sock.sendto(bmsg, endpoint)
-    
-
 
 #fixes the center issue and provides anti-aliasing  
 def draw_circle(surface, x, y, radius, color):
@@ -65,8 +62,8 @@ while RUNNING:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = pygame.mouse.get_pos()  # Get position when clicked
-            print("Mouse clicked at:", x, y)
-            send_bytes([x,y], socket=sock, endpoint=addr) #sends the int 1
+            print("Mouse clicked at:", x, y, "angle:", angle)
+            send_bytes(b"1", socket=sock, endpoint=addr) #sends the int 1
 
     #draw next frame
     pygame.display.flip() 
