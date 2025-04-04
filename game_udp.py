@@ -19,16 +19,18 @@ clock = pygame.time.Clock()
 color_update_speed = 0.8
 angle = 0
 
+
 def send_bytes(msg, socket, endpoint):
     if len(msg) > 0: 
         bmsg = bytes(msg)
         sock.sendto(bmsg, endpoint)
+    
+
 
 #fixes the center issue and provides anti-aliasing  
 def draw_circle(surface, x, y, radius, color):
     gfxdraw.aacircle(surface, x, y, radius, color)
     gfxdraw.filled_circle(surface, x, y, radius, color)
-
 
 def hsv_to_rgb(h, s=1.0, v=1.0):
     """map HSV [0,1] to RGB [0, 255]."""
@@ -42,7 +44,6 @@ def angle_to_hsv(angle):
 def angle_to_rgb(angle):
     hue = angle_to_hsv(angle)
     return hsv_to_rgb(hue)
-
 
 while RUNNING:
     #background
@@ -61,13 +62,14 @@ while RUNNING:
             sock.close()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            if clicks < 256: #limit to max byte size
+                clicks += 1
             x, y = pygame.mouse.get_pos()  # Get position when clicked
-            print("Mouse clicked at:", x, y, "angle:", angle)
-            send_bytes(b"1", socket=sock, endpoint=addr) #sends the int 1
+            print("Mouse clicked at:", x, y)
+            send_bytes([x,y], socket=sock, endpoint=addr) #sends the int 1
 
     #draw next frame
     pygame.display.flip() 
     clock.tick(FPS)
-
-
+    
 pygame.quit()
