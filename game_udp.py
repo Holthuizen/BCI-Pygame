@@ -67,8 +67,8 @@ while RUNNING:
             if clicks < 256: 
                 clicks += 1
             x, y = pygame.mouse.get_pos()  # Get position when clicked
-            print("Mouse clicked at:", x, y)
-            send_bytes(bytes([clicks]), socket=sock, endpoint=addr) #sends the int 1
+            print("clicks:", clicks, "Mouse clicked at:", x, y)
+            send_bytes(b"1", socket=sock, endpoint=addr) #sends the clicks as byte
 
     #draw next frame
     pygame.display.flip() 
