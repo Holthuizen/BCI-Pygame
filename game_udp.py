@@ -8,15 +8,16 @@ import socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 addr = ("127.0.0.1", 1000)
 
-FPS = 24
-W,H = 600, 800
+FPS = 60
+# W,H = 1000, 1000
+W,H = 1920, 1180
 R = 200
 RUNNING = True
 
 pygame.init()
 screen = pygame.display.set_mode((W,H)) #with height
 clock = pygame.time.Clock()
-color_update_speed = 0.8
+color_update_speed = 0.2
 angle = 0
 clicks = 0 #tracks number of mouse clicks
 
@@ -25,8 +26,6 @@ def send_bytes(msg, socket, endpoint):
         bmsg = bytes(msg)
         sock.sendto(bmsg, endpoint)
     
-
-
 #fixes the center issue and provides anti-aliasing  
 def draw_circle(surface, x, y, radius, color):
     gfxdraw.aacircle(surface, x, y, radius, color)
@@ -49,7 +48,9 @@ def angle_to_rgb(angle):
 
 while RUNNING:
     #background
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 0))
+    # screen.fill((100, 100, 100))
+    # screen.fill((255, 255, 255))
     
     angle += color_update_speed #fps multiplier 
     angle = angle % 360 #limit the domain between 0 and 360
@@ -67,7 +68,7 @@ while RUNNING:
             if clicks < 256: 
                 clicks += 1
             x, y = pygame.mouse.get_pos()  # Get position when clicked
-            print("clicks:", clicks, "Mouse clicked at:", x, y)
+            print("Click:", clicks, "Color:", cc)
             send_bytes(b"1", socket=sock, endpoint=addr) #sends the clicks as byte
 
     #draw next frame
