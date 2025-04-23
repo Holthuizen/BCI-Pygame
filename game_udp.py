@@ -66,6 +66,7 @@ while RUNNING:
                 clicks += 1
             x, y = pygame.mouse.get_pos()  # Get position when clicked
             print("Mouse clicked at:", x, y)
+            print("Color when mouse pressed:", cc)
             send_bytes([x,y], socket=sock, endpoint=addr) #sends the int 1
 
     #draw next frame
